@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wilpattu Jeep Safari Gallery</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./assets/css/gallery.css">
+</head>
+<body>
+    
+    <header>
+        <nav>
+            <a href="index.html" class="active">Home</a>
+        </nav>
+    </header>
+
+    <div class="carousel">
+        <div class="list" id="animal-list">
+            <!-- Animal items will be populated here -->
+        </div>
+
+        <!-- Next/Prev button -->
+        <div class="arrows">
+            <button class="prev"><</button>
+            <button class="next">></button>
+        </div>
+
+        <!-- Time running -->
+        <div class="timeRunning"></div>
+    </div>
+
+    <script>
+        // Function to fetch animal data
+        async function fetchAnimals() {
+            try {
+                const response = await fetch('http://localhost/wildvine/php/classes/fetch_animals.php'); // Update this with your actual API endpoint
+                const animals = await response.json();
+                
+                // Reference to the animal list container
+                const animalList = document.getElementById('animal-list');
+
+                // Clear existing items
+                animalList.innerHTML = '';
+
+                // Loop through each animal and create the HTML structure
+                animals.forEach(animal => {
+                    const item = document.createElement('div');
+                    item.className = 'item';
+                    item.style.backgroundImage = `url(${animal.image_url})`;
+
+                    item.innerHTML = `
+                        <div class="content">
+                            <div class="name">${animal.name}</div>
+                            <div class="des">${animal.details}</div>
+                        </div>
+                    `;
+
+                    // Append item to the animal list
+                    animalList.appendChild(item);
+                });
+
+                // Initialize the carousel after adding items
+                if (animalList.children.length > 0) {
+                    resetTimeAnimation(); // Call this function if you have it in your JS
+                    startCarousel(); // Start the carousel after fetching animals
+                }
+            } catch (error) {
+                console.error('Error fetching animal data:', error);
+            }
+        }
+
+        // Carousel Control Functionality
+        const nextBtn = document.querySelector('.next'),
+              prevBtn = document.querySelector('.prev'),
+              carousel = document.querySelector('.carousel'),
+              list = document.querySelector('.list'), 
+              runningTime = document.querySelector('.carousel .timeRunning');
+
+        let timeRunning = 3000;
+        let timeAutoNext = 7000;
+        let currentIndex = 0;
+
+        function startCarousel() {
+            showSlider('next');
+            setInterval(() => {
+                if (currentIndex >= list.children.length) {
+                    location.reload(); // Refresh the page when all images have been shown
+                } else {
+                    nextBtn.click();
+                }
+            }, timeAutoNext);
+        }
+
+        nextBtn.onclick = function() {
+            showSlider('next');
+        };
+
+        prevBtn.onclick = function() {
+            showSlider('prev');
+        };
+
+        let runTimeOut;
+
+        function resetTimeAnimation() {
+            runningTime.style.animation = 'none';
+            runningTime.offsetHeight; // trigger reflow
+            runningTime.style.animation = 'runningTime 7s linear 1 forwards';
+        }
+
+        function showSlider(type) {
+            let sliderItemsDom = list.querySelectorAll('.carousel .list .item');
+            if (type === 'next') {
+                list.appendChild(sliderItemsDom[0]); // Move the first item to the end
+                carousel.classList.add('next');
+                currentIndex++;
+            } else {
+                list.prepend(sliderItemsDom[sliderItemsDom.length - 1]); // Move the last item to the start
+                carousel.classList.add('prev');
+                currentIndex--;
+            }
+
+            clearTimeout(runTimeOut);
+            runTimeOut = setTimeout(() => {
+                carousel.classList.remove('next');
+                carousel.classList.remove('prev');
+            }, timeRunning);
+
+            resetTimeAnimation(); // Reset the running time animation
+        }
+
+        // Start the initial animation 
+        fetchAnimals(); // Call the function to fetch animal data on page load
+        resetTimeAnimation(); // Start the animation
+    </script>
+</body>
+</html>

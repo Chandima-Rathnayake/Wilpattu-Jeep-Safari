@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Feedback - Wilpattu Jeep Safari</title>
+    
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./assets/css/upload.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert CDN -->
+    <link rel="stylesheet" href="./assets/css/feedback.css"> <!-- Optional: For styling -->
+</head>
+<body>
+    
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="feedback_display.html">Feedbacks</a>
+        </nav>
+    </header>
+
+    <div class="upload-container">
+        <h1>Submit Your Feedback</h1>
+        <form id="feedbackForm" enctype="multipart/form-data">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="role">Your Role:</label>
+            <input type="text" id="role" name="role" required>
+
+            <label for="feedback">Feedback:</label>
+            <textarea id="feedback" name="feedback" required></textarea>
+
+            <label for="rating">Rating:</label>
+            <div class="star-rating">
+                <input type="radio" name="rating" id="star5" value="5"><label for="star5" title="5 stars">&#9733;</label>
+                <input type="radio" name="rating" id="star4" value="4"><label for="star4" title="4 stars">&#9733;</label>
+                <input type="radio" name="rating" id="star3" value="3"><label for="star3" title="3 stars">&#9733;</label>
+                <input type="radio" name="rating" id="star2" value="2"><label for="star2" title="2 stars">&#9733;</label>
+                <input type="radio" name="rating" id="star1" value="1"><label for="star1" title="1 star">&#9733;</label>
+            </div>
+
+            <label for="image">Choose a profile image (optional):</label>
+            <input type="file" id="image" name="image" accept="image/*">
+
+            <button type="submit" id="submitButton">Submit Feedback</button>
+        </form>
+    </div>
+
+    <script src="./assets/js/feedback.js"></script> <!-- Include the feedback.js -->
+</body>
+</html>

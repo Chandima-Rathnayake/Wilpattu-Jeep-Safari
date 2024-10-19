@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Wilpattu Jeep Safari</title>
+    
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./assets/css/feedback.css">
+
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://res.cloudinary.com/dgtbkkzzb/image/upload/v1729345221/bohdan-buryi-RP1VMWQwgYk-unsplash_coa4im.jpg'); /* Add your background image here */
+            background-size: cover; /* Cover the entire body */
+            background-position: center; /* Center the image */
+            background-attachment: fixed; /* Make the background fixed when scrolling */
+        }
+
+        header nav {
+            background-color: black;
+            padding: 15px;
+            text-align: center;
+        }
+
+        header nav a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        header nav a:hover {
+            color: #18bc9c;
+        }
+
+        /* Feedback Carousel Container */
+        .feedback-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: rgba(22, 19, 19, 0.244); /* Light background for better contrast */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Hide overflowing feedback items */
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        /* Feedback Carousel Styling */
+        .feedback-carousel {
+            display: flex;
+            gap: 20px;
+            animation: move-carousel 60s linear infinite; /* Smooth continuous carousel animation */
+            flex-wrap: nowrap;
+        }
+
+        /* Move the carousel items from right to left continuously */
+        @keyframes move-carousel {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .feedback-item {
+    min-width: 300px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+
+        .feedback-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .user-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #03662e;
+        }
+
+        .feedback-details h3 {
+            font-size: 18px;
+            color: black;
+            margin-bottom: 10px;
+        }
+
+        .feedback-details p {
+            font-size: 16px;
+            color: black;
+            margin-bottom: 15px;
+        }
+
+        .feedback-details small {
+            font-size: 12px;
+            color: black;
+        }
+
+        .feedback-rating {
+            font-size: 18px;
+            color: black; /* Make rating text black */
+            margin-bottom: 10px;
+        }
+
+        .gold-star {
+            color: #FFD700; /* Gold color for stars */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="feedback.html">Submit Feedback</a>
+        </nav>
+    </header>
+
+    <div class="feedback-container">
+        <div id="feedbackCarousel" class="feedback-carousel"></div> <!-- Placeholder for feedback carousel -->
+    </div>
+
+    <script>
+        async function fetchFeedback() {
+            try {
+                const response = await fetch('../classes/fetch_feedback.php'); // Adjust the path as needed
+                const feedbackList = await response.json();
+
+                const feedbackContainer = document.getElementById('feedbackCarousel');
+                feedbackContainer.innerHTML = ''; // Clear existing feedback
+
+                feedbackList.forEach(feedback => {
+                    const feedbackItem = document.createElement('div');
+                    feedbackItem.className = 'feedback-item';
+
+                    feedbackItem.innerHTML = `
+                        <img src="${feedback.image_url}" alt="${feedback.name}'s photo" class="user-image">
+                        <div class="feedback-details">
+                            <h3>${feedback.name} (${feedback.role})</h3>
+                            <p>${feedback.feedback}</p>
+                            <div class="feedback-rating">
+                                Rating: <span class="gold-star">${'★'.repeat(feedback.rating)}</span>${'☆'.repeat(5 - feedback.rating)}
+                            </div>
+                            <small>Submitted on: ${feedback.submission_date}</small>
+                        </div>
+                    `;
+
+                    feedbackContainer.appendChild(feedbackItem);
+                });
+
+                // Adjust animation speed based on number of feedback items
+                let animationDuration = feedbackList.length * 10; // 10s per feedback item
+                document.querySelector('.feedback-carousel').style.animationDuration = `${animationDuration}s`;
+            } catch (error) {
+                console.error('Error fetching feedback:', error);
+            }
+        }
+
+        // Fetch feedback on page load
+        fetchFeedback();
+    </script>
+</body>
+</html>

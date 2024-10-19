@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <link rel="stylesheet" href="./assets/css/admin.css">
+
+  <script>
+    // Function to handle the login form submission
+    function handleLogin(event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      // Retrieve username and password values
+      const username = document.querySelector('input[name="username"]').value;
+      const password = document.querySelector('input[name="password"]').value;
+
+      // Check if the username and password match
+      const ADMIN_USERNAME = ''; // Use the username from .env
+      const ADMIN_PASSWORD = ''; // Use the password from .env
+
+      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        // Set admin status in localStorage
+        localStorage.setItem('isAdmin', 'true');
+
+        // Show success message with SweetAlert
+        Swal.fire({
+          icon: 'success',
+          title: 'Sign In Success',
+          text: 'Welcome to the Admin Dashboard!',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+          // Redirect to upload.html after the success message
+          window.location.href = 'upload.html';
+        });
+      } else {
+        // Show error message with SweetAlert
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed',
+          text: 'Invalid username or password!',
+        });
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <div class="col-left">
+        <div class="login-text">
+          <h2>Welcome</h2>
+          <p>© Wilpattu Jeep Safari<br>✨🦁🌿</p>
+          <a class="btn" href="./index.html">Home</a>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="login-form">
+          <h2>Login</h2>
+          <form method="POST" action="" onsubmit="handleLogin(event)">
+            <p>
+              <label>Username<span>*</span></label>
+              <input type="text" name="username" placeholder="Username" required>
+            </p>
+            <p>
+              <label>Password<span>*</span></label>
+              <input type="password" name="password" placeholder="Password" required>
+            </p>
+            <p>
+              <input type="submit" value="Sign In" />
+            </p>
+            <p>
+              <a href="https://wa.me/94707077075">Forget Password?</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

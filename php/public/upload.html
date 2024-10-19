@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Upload - Wilpattu Jeep Safari</title>
+    
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./assets/css/upload.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert CDN -->
+
+    <script>
+        // Check if the user is an admin
+        const isAdmin = localStorage.getItem('isAdmin');
+
+        if (isAdmin !== 'true') {
+            // If not an admin, redirect to login page
+            window.location.href = 'admin.html'; // Redirect to login page
+        }
+
+        // Optional: Clear the admin status upon page refresh
+        window.addEventListener('beforeunload', function() {
+            localStorage.removeItem('isAdmin'); // Clear admin status on page unload
+        });
+    </script>
+</head>
+<body>
+    
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="gallery.html">Gallery</a>
+        </nav>
+    </header>
+
+    <div class="upload-container">
+        <h1>Admin Upload Animal Image</h1>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="animal_name">Animal Name:</label>
+            <input type="text" id="animal_name" name="animal_name" required>
+
+            <label for="animal_details">Animal Details:</label>
+            <textarea id="animal_details" name="animal_details" required></textarea>
+
+            <label for="animal_image">Choose an image:</label>
+            <input type="file" id="animal_image" name="animal_image" accept="image/*" required>
+
+            <button type="submit" id="uploadButton">Upload</button>
+        </form>
+    </div>
+
+    <script src="./assets/js/gallery.js"></script>
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const uploadButton = document.getElementById('uploadButton');
+            uploadButton.style.display = 'none'; // Hide the upload button
+
+            const formData = new FormData(this); // Create FormData object
+
+            // Send form data using fetch API
+            fetch('../classes/upload.php', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Check if the upload was successful
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        // Redirect to upload.html
+                        window.location.href = '../public/upload.html'; // Adjust path as needed
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        uploadButton.style.display = 'inline-block'; // Show the button again on error
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'An unexpected error occurred.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    uploadButton.style.display = 'inline-block'; // Show the button again on error
+                });
+            });
+        });
+    </script>
+</body>
+</html>
