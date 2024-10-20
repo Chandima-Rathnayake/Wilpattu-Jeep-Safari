@@ -5,10 +5,14 @@
 
 🌿 Explore the Wild with Wilpattu Jeep Safari! 🐆
 
+
+
 Excited to share the demo of our brand-new Wilpattu Jeep Safari website, designed for adventure seekers and wildlife lovers! 🌍🚙
 
 
+
 Our platform offers:
+
 
 
 - ✅  𝐒𝐞𝐚𝐦𝐥𝐞𝐬𝐬 𝐁𝐨𝐨𝐤𝐢𝐧𝐠 𝐄𝐱𝐩𝐞𝐫𝐢𝐞𝐧𝐜𝐞 – Choose between full-day and half-day safari packages with secure payment options via Visa & MasterCard.
@@ -24,7 +28,10 @@ Our platform offers:
 - ✅ 𝐒𝐄𝐎 𝐎𝐩𝐭𝐢𝐦𝐢𝐳𝐞𝐝 – Aiming to be the #1 safari booking site for 𝐖𝐢𝐥𝐩𝐚𝐭𝐭𝐮 𝐉𝐞𝐞𝐩 𝐒𝐚𝐟𝐚𝐫𝐢 in Google search results.
 
 
+
 Tech Stack & Tools Used:
+
+
 
 💻 Frontend: HTML5, CSS3, JavaScript
 
@@ -43,9 +50,13 @@ Tech Stack & Tools Used:
 🛠️ Version Control: Git & GitHub
 
 
+
 Join us in the journey to discover the beauty of Wilpattu’s wildlife! 🦁🐘
 
+
+
 Check out the video to see how easy it is to plan your next safari adventure! 🎥👇
+
 
 https://github.com/user-attachments/assets/1c42d373-4c87-4686-b525-05023dc1f8fd
 
